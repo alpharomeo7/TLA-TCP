@@ -100,8 +100,11 @@ m2 == <<Msg2N, Msg2ACK, Msg2FIN, Msg2SQN>>
           \/ Server1FIN
           \/ Server2FIN
           
+SysOK == /\ S1SQN <= S2ACK 
+         /\ S2SQN <= S2ACK
+         
 Done == ~(S1State = "finished" /\ S2State = "finished")
 =============================================================================
 \* Modification History
-\* Last modified Sun Dec 03 22:15:15 EST 2023 by ajayr
+\* Last modified Mon Dec 04 10:56:51 EST 2023 by ajayr
 \* Created Sun Dec 03 15:46:40 EST 2023 by ajayr
