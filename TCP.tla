@@ -48,7 +48,7 @@ m2 == <<Msg2N, Msg2ACK, Msg2FIN, Msg2SQN>>
                /\ S2SQN' = S2SQN 
                /\ UNCHANGED  <<s1, s2, m1>>
                
- Server1Read == IF Msg2ACK > 0 \/ Msg2N > 0 
+ Server1Read == IF (Msg2ACK > 0 \/ Msg2N > 0) /\ Msg2SQN >= S1ACK 
                THEN 
                /\ S1ACK' = Msg2SQN + Msg2N
                /\ S1State' = S1State
@@ -57,7 +57,7 @@ m2 == <<Msg2N, Msg2ACK, Msg2FIN, Msg2SQN>>
                ELSE 
                 UNCHANGED <<s1,s2,m1,m2>>
  
- Server2Read == IF Msg1ACK > 0 \/ Msg1N > 0 
+ Server2Read == IF (Msg1ACK > 0 \/ Msg1N > 0)  /\ Msg1SQN >= S2ACK 
                THEN 
                /\ S2ACK' = Msg1SQN +  Msg1N
                /\ S2State' = S2State
@@ -106,5 +106,5 @@ SysOK == /\ S1SQN <= S2ACK
 Done == ~(S1State = "finished" /\ S2State = "finished")
 =============================================================================
 \* Modification History
-\* Last modified Mon Dec 04 10:56:51 EST 2023 by ajayr
+\* Last modified Mon Dec 04 11:01:27 EST 2023 by ajayr
 \* Created Sun Dec 03 15:46:40 EST 2023 by ajayr
